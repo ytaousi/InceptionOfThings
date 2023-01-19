@@ -18,58 +18,58 @@ spec:
     spec:
       containers:
       - name: application1-container
-        image: 
+        image: paulbouwer/hello-kubernetes:1.10
         ports:
-        - containerPort: 80
+        - containerPort: 8080
 ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: application2-deployment
-#   namespace: default
-#   labels:
-#     app: application2
-# spec:
-#   selector:
-#     matchLabels:
-#       app: application2
-#   replicas: 3
-#   template:
-#     metadata:
-#       labels:
-#         app: application2
-#     spec:
-#       containers:
-#       - name: application2-container
-#         image: 
-#         ports:
-#         - containerPort: 80
-#           name: application2
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: application3-deployment
-#   namespace: default
-#   labels:
-#     app: application3
-# spec:
-#   selector:
-#     matchLabels:
-#       app: application3
-#   replicas: 1
-#   template:
-#     metadata:
-#       labels:
-#         app: application3
-#     spec:
-#       containers:
-#       - name: application3-container
-#         image: 
-#         ports:
-#         - containerPort: 80
-#           name: application3
-# ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application2-deployment
+  namespace: default
+  labels:
+    app: application2
+spec:
+  selector:
+    matchLabels:
+      app: application2
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: application2
+    spec:
+      containers:
+      - name: application2-container
+        image: paulbouwer/hello-kubernetes:1.10
+        ports:
+        - containerPort: 8080
+          name: application2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application3-deployment
+  namespace: default
+  labels:
+    app: application3
+spec:
+  selector:
+    matchLabels:
+      app: application3
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: application3
+    spec:
+      containers:
+      - name: application3-container
+        image: paulbouwer/hello-kubernetes:1.10
+        ports:
+        - containerPort: 8080
+          name: application3
+---
 
 
   

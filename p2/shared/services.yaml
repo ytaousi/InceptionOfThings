@@ -5,8 +5,8 @@ metadata:
   name: application1
 spec:
   ports:
-    - port: 8001
-      targetPort: 80
+    - port: 80
+      targetPort: 8080
       protocol: TCP
       name: application1-port
   selector:
@@ -15,26 +15,26 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: application1
+  name: application2
 spec:
   ports:
-    - port: 8001
-      targetPort: 80
+    - port: 80
+      targetPort: 8080
       protocol: TCP
-      name: application1-port
+      name: application2-port
   selector:
-    app:  application1
+    app:  application2
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: application1
+  name: application3
 spec:
   ports:
-    - port: 8001
-      targetPort: 80
+    - port: 80
+      targetPort: 8080
       protocol: TCP
-      name: application1-port
+      name: application3-port
   selector:
-    app:  application1
+    app:  application3
 ---
