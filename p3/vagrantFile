@@ -23,10 +23,12 @@ $initScriptS = <<-SCRIPT
 
     k3d cluster create test --k3s-arg "--disable=traefik@server:0"
 
+    kubectl create namespace Argocd
+    kubectl create namespace dev
     kubectl apply -f /vagrant/shared/traefik.yaml --namespace=kube-system
-    kubectl apply -f /vagrant/shared/deployments.yaml
-    kubectl apply -f /vagrant/shared/services.yaml
-    kubectl apply -f /vagrant/shared/traefik-ingress.yaml
+    kubectl apply -f /vagrant/shared/deployments.yaml -n dev
+    kubectl apply -f /vagrant/shared/services.yaml -n dev
+    kubectl apply -f /vagrant/shared/traefik-ingress.yaml -n dev
 
     SCRIPT
 
