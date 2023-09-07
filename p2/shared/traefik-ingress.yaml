@@ -10,7 +10,7 @@ metadata:
 spec:
   rules:
   - http:
-      paths:
+    paths:
       - path: /
         pathType: Prefix
         backend:
@@ -18,4 +18,25 @@ spec:
             name: application3
             port:
               number: 80
+  - http:
+    - host: app2.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: application2
+              port:
+                number: 80
+  - http:
+    - host: app1.com
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: application1
+              port:
+                number: 80
+  
 ---
