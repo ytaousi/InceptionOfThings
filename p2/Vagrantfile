@@ -1,10 +1,28 @@
+$initScriptS = <<-SCRIPT
+        apt-get update
+        apt-get upgrade -y
+        export node_address=$(ip a show eth1 | grep "inet " | awk '{print $2}' | cut -d / -f1)
+        export node_interface="eth1"
+        curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=${node_address} --flannel-iface ${node_interface} --write-kubeconfig-mode 644 server" sh -
+        
+        sudo curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+        sudo chmod 700 get_helm.sh
+        sudo ./get_helm.sh
+
+        sudo cat /var/lib/rancher/k3s/server/manifests/traefik.yaml /vagrant/shared/traefik.yaml
+        
+        kubectl -f /vagrant/shared/traefik.yaml -n kube-system
+        kubectl -f /vagrant/shared/deployments.yaml -n default
+        kubectl -f /vagrant/shared/services.yaml -n default
+        kubectl -f /vagrant/shared/traefik-ingress.yaml -n default
+
+        SCRIPT
+
 Vagrant.configure("2") do |config|
     config.vm.box = "bento/ubuntu-16.04"
-    config.vm.synced_folder "." , "/vagrant" , disabled: true
     config.vm.define "ytaousiS" do |master|
         master.vm.hostname = "ytaousiS"
         master.vm.network "private_network", ip: "192.168.56.110"
-        master.vm.synced_folder "./shared", "/vagrantShared"
         master.vm.provider "virtualbox" do |v|
             v.name = "ytaousiS"
             v.customize ["modifyvm", :id, "--memory", "1024"]
@@ -12,8 +30,6 @@ Vagrant.configure("2") do |config|
             v.customize ["modifyvm", :id, "--name", "ytaousiS"]
         end
         
-        master.vm.provision "shell" do |s|
-            s.path = "./initScripts/masterScript.sh"
-        end
+        master.vm.provision "shell", inline:$initScriptS
     end
 end
