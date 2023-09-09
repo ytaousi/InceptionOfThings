@@ -16,23 +16,22 @@ $initScriptS = <<-SCRIPT
     sudo chmod 700 get_helm.sh
     sudo ./get_helm.sh
 
+    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+    
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    sudo chown -R $USER $HOME/.kube
+    
+    k3d cluster create test 
 
-    curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-
-    k3d cluster create test --k3s-arg "--disable=traefik@server:0"
-
-    kubectl create namespace Argocd
-    kubectl create namespace dev
-    kubectl apply -f /vagrant/shared/traefik.yaml --namespace=kube-system
-    kubectl apply -f /vagrant/shared/deployments.yaml -n dev
-    kubectl apply -f /vagrant/shared/services.yaml -n dev
-    kubectl apply -f /vagrant/shared/traefik-ingress.yaml -n dev
+    sudo kubectl create namespace argocd
+    sudo kubectl create namespace dev
+    sudo kubectl apply -f /vagrant/shared/traefik.yaml --namespace=kube-system
+    sudo kubectl apply -f /vagrant/shared/deployments.yaml -n dev
+    sudo kubectl apply -f /vagrant/shared/services.yaml -n dev
+    sudo kubectl apply -f /vagrant/shared/traefik-ingress.yaml -n dev
 
     SCRIPT
-
-    
 
 Vagrant.configure("2") do |config|
     config.vm.box = "bento/ubuntu-16.04"
