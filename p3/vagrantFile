@@ -20,24 +20,35 @@ $initScriptS = <<-SCRIPT
     
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-    sudo chown -R $USER $HOME/.kube
-    
-    k3d cluster create test 
+
+    k3d cluster create test --no-lb --k3s-arg="--disable=traefik@server:0"
 
     sudo kubectl create namespace argocd
     sudo kubectl create namespace dev
-    sudo kubectl apply -f /vagrant/shared/traefik.yaml --namespace=kube-system
+    
+    sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    
+    sudo kubectl apply -f /vagrant/shared/traefik.yaml -n kube-system
+    
     sudo kubectl apply -f /vagrant/shared/deployments.yaml -n dev
     sudo kubectl apply -f /vagrant/shared/services.yaml -n dev
+    
     sudo kubectl apply -f /vagrant/shared/traefik-ingress.yaml -n dev
 
+    k3d kubeconfig show test > /vagrant/shared/config
+    mkdir /home/vagrant/.kube
+    sudo chown -R vagrant: ~/.kube
+    cp /vagrant/shared/config /home/vagrant/.kube/config
+    
+    echo "Once kubeconfig file is updated you can use kubectl to manage your cluster gheyerha!"
     SCRIPT
 
 Vagrant.configure("2") do |config|
     config.vm.box = "bento/ubuntu-16.04"
     config.vm.define "ytaousiS" do |master|
+        master.vm.network "forwarded_port", guest: 80, host: 8080
         master.vm.hostname = "ytaousiS"
-        master.vm.network "private_network", ip: "192.168.56.110"
+        master.vm.network "private_network", ip: "192.168.56.112"
         master.vm.provider "virtualbox" do |v|
             v.name = "ytaousiS"
             v.customize ["modifyvm", :id, "--memory", "1024"]
