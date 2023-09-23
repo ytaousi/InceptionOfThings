@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: application1-container
-        image: paulbouwer/hello-kubernetes:1.10
+        image: wil42/playground:v1
         ports:
-        - containerPort: 8080
+        - containerPort: 8888
