@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application1-deployment
+  namespace: dev
+  labels:
+    app: application1
+spec:
+  selector:
+    matchLabels:
+      app: application1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: application1
+    spec:
+      containers:
+      - name: application1-container
+        image: paulbouwer/hello-kubernetes:1.10
+        ports:
+        - containerPort: 8080

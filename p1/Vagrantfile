@@ -4,9 +4,9 @@ $scriptS = <<-SCRIPT
         export node_address=$(ip a show eth1 | grep "inet " | awk '{print $2}' | cut -d / -f1)
         export node_interface="eth1"
         curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=${node_address} --flannel-iface ${node_interface} --write-kubeconfig-mode 644 server --no-deploy=servicelb --no-deploy=traefik" sh -
-        sudo cp /var/lib/rancher/k3s/server/node-token /vagrant/shared
-        sudo cp /etc/rancher/k3s/k3s.yaml /vagrant/shared
-        sudo sed -i "s|server: https://127.0.0.1:6443|server: https://192.168.56.110:6443/|g" /vagrant/shared/k3s.yaml
+        sudo cp /var/lib/rancher/k3s/server/node-token /vagrant/confs
+        sudo cp /etc/rancher/k3s/k3s.yaml /vagrant/confs
+        sudo sed -i "s|server: https://127.0.0.1:6443|server: https://192.168.56.110:6443/|g" /vagrant/confs/k3s.yaml
         SCRIPT
 
 $scriptSW = <<-SCRIPT
@@ -15,11 +15,11 @@ $scriptSW = <<-SCRIPT
         export node_address=$(ip a show eth1 | grep "inet " | awk '{print $2}' | cut -d / -f1)
         export node_interface="eth1"
         
-        curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=${node_address} --flannel-iface ${node_interface}" K3S_TOKEN=$(cat /vagrant/shared/node-token) K3S_URL="https://192.168.56.110:6443"  sh -
+        curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="--node-ip=${node_address} --flannel-iface ${node_interface}" K3S_TOKEN=$(cat /vagrant/confs/node-token) K3S_URL="https://192.168.56.110:6443"  sh -
         
         sudo mkdir /etc/rancher/k3s
-        sudo cp /vagrant/shared/k3s.yaml /etc/rancher/k3s
-        export KUBECONFIG=/vagrant/shared/k3s.yaml
+        sudo cp /vagrant/confs/k3s.yaml /etc/rancher/k3s
+        export KUBECONFIG=/vagrant/confs/k3s.yaml
         
         SCRIPT
 

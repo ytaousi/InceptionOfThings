@@ -9,12 +9,12 @@ $initScriptS = <<-SCRIPT
         sudo chmod 700 get_helm.sh
         sudo ./get_helm.sh
 
-        sudo cat /var/lib/rancher/k3s/server/manifests/traefik.yaml > /vagrant/shared/traefik.yaml
+        sudo cat /var/lib/rancher/k3s/server/manifests/traefik.yaml > /vagrant/confs/traefik.yaml
         
-        kubectl apply -f /vagrant/shared/traefik.yaml -n kube-system
-        kubectl apply -f /vagrant/shared/deployments.yaml -n default
-        kubectl apply -f /vagrant/shared/services.yaml -n default
-        kubectl apply -f /vagrant/shared/traefik-ingress.yaml -n default
+        kubectl apply -f /vagrant/confs/traefik.yaml -n kube-system
+        kubectl apply -f /vagrant/confs/deployments.yaml -n default
+        kubectl apply -f /vagrant/confs/services.yaml -n default
+        kubectl apply -f /vagrant/confs/traefik-ingress.yaml -n default
 
         SCRIPT
 
