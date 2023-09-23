@@ -1,0 +1,6 @@
+docker exec -it gitlab editor /etc/gitlab/gitlab.rb
+
+docker exec -it gitlab update-permissions
+
+
+ Is a directory @ rb_sysopen - /etc/gitlab/initial_root_password

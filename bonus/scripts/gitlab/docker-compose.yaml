@@ -1,0 +1,32 @@
+# docker-compose.yml
+version: '3.7'
+services:
+  web:
+    image: gitlab/gitlab-ce:latest
+    restart: always
+    hostname: localhost
+    container_name: gitlab-ce
+    environment:
+      GITLAB_OMNIBUS_CONFIG: "external_url 'http://my.domain.com/'; gitlab_rails['lfs_enabled'] = true;"
+      GITLAB_ROOT_PASSWORD: "shiish"
+
+    ports:
+      - 8080:80
+      - 8443:443
+    volumes:
+      - /home/normal-user/Desktop/42-projects/InceptionOfThings/bonus/scripts/gitlab/volumes/config:/etc/gitlab
+      - /home/normal-user/Desktop/42-projects/InceptionOfThings/bonus/scripts/gitlab/volumes/logs:/var/log/gitlab
+      - /home/normal-user/Desktop/42-projects/InceptionOfThings/bonus/scripts/gitlab/volumes/data:/var/opt/gitlab
+      - /home/normal-user/Desktop/42-projects/InceptionOfThings/bonus/scripts/gitlab/volumes:/etc/gitlab/initial_root_password
+
+  # gitlab-runner:
+  #   image: gitlab/gitlab-runner:alpine
+  #   container_name: gitlab-runner    
+  #   restart: always
+  #   depends_on:
+  #     - web
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - '/home/normal-user/Desktop/42-projects/InceptionOfThings/bonus/scripts/gitlab/volumes/data/gitlab-runner:/etc/gitlab-runner'
+
+
