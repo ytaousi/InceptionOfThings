@@ -25,7 +25,7 @@ kubectl apply -f /home/normal-user/Desktop/42-projects/InceptionOfThings/p3/conf
 kubectl apply -f /home/normal-user/Desktop/42-projects/InceptionOfThings/p3/confs/services.yaml -n dev
 kubectl apply -f /home/normal-user/Desktop/42-projects/InceptionOfThings/p3/confs/traefik-ingress.yaml -n dev
 
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath={.data.password} | base64 -d
+kubectl -n argocd get secret argocfd-initial-admin-secret -o jsonpath={.data.password} | base64 -d
 
 #kubectl -n argocd port-forward svc/argocd-server 8080:443
 
