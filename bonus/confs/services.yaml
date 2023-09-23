@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: application1
+  namespace: dev
+spec:
+  ports:
+    - port: 80
+      targetPort: 8888
+      protocol: TCP
+      name: application1-port
+  selector:
+    app:  application1
+---

@@ -12,7 +12,7 @@ then
     sudo chmod a+r /etc/apt/keyrings/docker.gpg
     sudo echo "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt update
-    sudo apt install docker-ce docker-ce-cli containerd.io -y
+    sudo apt install docker-ce docker-ce-cli containerd.io docker-compose -y
     sudo usermod -aG docker $USER
 else
     echo "docker is already installed"
@@ -25,6 +25,7 @@ then
     curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 else
     echo "k3d is already installed" 
+fi
 
 
 if ! command -v kubectl 1>/dev/null
@@ -34,3 +35,4 @@ then
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 else
     echo "kubectl is already installed"
+fi
