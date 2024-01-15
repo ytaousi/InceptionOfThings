@@ -10,7 +10,7 @@ kubectl create namespace argocd
 kubectl create namespace dev
 
 
-kubectl apply -f /home/normal-user/Desktop/42-projects/InceptionOfThings/p3/confs/traefik.yaml -n kube-system
+kubectl apply -f /home/normal-user/Desktop/InceptionOfThings/p3/confs/traefik.yaml -n kube-system
 # we should wait until treafik pods are ready then we can go further into the deployment
 kubectl wait -n kube-system --for=condition=available deployment --all --timeout=5m
 
